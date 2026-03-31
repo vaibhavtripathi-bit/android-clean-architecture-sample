@@ -1,22 +1,22 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
+    id(Plugins.ANDROID_APPLICATION)
+    id(Plugins.KOTLIN_ANDROID)
+    id(Plugins.KOTLIN_COMPOSE)
+    id(Plugins.KOTLIN_SERIALIZATION)
+    id(Plugins.HILT_ANDROID)
+    id(Plugins.KSP)
 }
 
 android {
-    namespace = "com.vaibhav.restaurant"
-    compileSdk = 35
+    namespace = AppConfig.NAMESPACE
+    compileSdk = AppConfig.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "com.vaibhav.restaurant"
-        minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.APPLICATION_ID
+        minSdk = AppConfig.MIN_SDK
+        targetSdk = AppConfig.TARGET_SDK
+        versionCode = AppConfig.VERSION_CODE
+        versionName = AppConfig.VERSION_NAME
     }
 
     buildTypes {
@@ -35,7 +35,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = AppConfig.JVM_TARGET
     }
 
     buildFeatures {
@@ -45,54 +45,54 @@ android {
 
 dependencies {
     // Core
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.activity.compose)
+    implementation(Deps.AndroidX.CORE_KTX)
+    implementation(Deps.AndroidX.Lifecycle.RUNTIME_KTX)
+    implementation(Deps.AndroidX.Lifecycle.RUNTIME_COMPOSE)
+    implementation(Deps.AndroidX.Lifecycle.VIEWMODEL_COMPOSE)
+    implementation(Deps.AndroidX.ACTIVITY_COMPOSE)
 
     // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended)
-    debugImplementation(libs.androidx.ui.tooling)
+    implementation(platform(Deps.AndroidX.Compose.BOM))
+    implementation(Deps.AndroidX.Compose.UI)
+    implementation(Deps.AndroidX.Compose.UI_GRAPHICS)
+    implementation(Deps.AndroidX.Compose.UI_TOOLING_PREVIEW)
+    implementation(Deps.AndroidX.Compose.MATERIAL3)
+    implementation(Deps.AndroidX.Compose.MATERIAL_ICONS_EXTENDED)
+    debugImplementation(Deps.AndroidX.Compose.UI_TOOLING)
 
     // Navigation
-    implementation(libs.androidx.navigation.compose)
+    implementation(Deps.AndroidX.Navigation.COMPOSE)
 
     // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(Deps.Hilt.ANDROID)
+    ksp(Deps.Hilt.COMPILER)
+    implementation(Deps.Hilt.NAVIGATION_COMPOSE)
 
     // Retrofit + OkHttp
-    implementation(libs.retrofit)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
-    implementation(libs.retrofit.kotlinx.serialization)
+    implementation(Deps.Network.RETROFIT)
+    implementation(Deps.Network.OKHTTP)
+    implementation(Deps.Network.OKHTTP_LOGGING)
+    implementation(Deps.Network.RETROFIT_KOTLINX_SERIALIZATION)
 
     // Kotlin Serialization
-    implementation(libs.kotlinx.serialization.json)
+    implementation(Deps.KotlinX.SERIALIZATION_JSON)
 
     // Room
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
+    implementation(Deps.AndroidX.Room.RUNTIME)
+    implementation(Deps.AndroidX.Room.KTX)
+    ksp(Deps.AndroidX.Room.COMPILER)
 
     // Coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
+    implementation(Deps.Coil.COMPOSE)
+    implementation(Deps.Coil.NETWORK_OKHTTP)
 
     // DataStore
-    implementation(libs.datastore.preferences)
+    implementation(Deps.AndroidX.DataStore.PREFERENCES)
 
     // Coroutines
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.core)
+    implementation(Deps.KotlinX.COROUTINES_ANDROID)
+    implementation(Deps.KotlinX.COROUTINES_CORE)
 
     // Immutable Collections
-    implementation(libs.kotlinx.collections.immutable)
+    implementation(Deps.KotlinX.COLLECTIONS_IMMUTABLE)
 }
