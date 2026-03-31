@@ -13,6 +13,7 @@ import com.vaibhav.restaurant.feature.menu.presentation.HomeScreen
 import com.vaibhav.restaurant.feature.menu.presentation.MenuItemDetailScreen
 import com.vaibhav.restaurant.feature.order.presentation.OrderHistoryScreen
 import com.vaibhav.restaurant.feature.order.presentation.OrderTrackingScreen
+import com.vaibhav.restaurant.feature.kitchen.presentation.KitchenDashboardScreen
 import com.vaibhav.restaurant.feature.profile.presentation.ProfileScreen
 
 @Composable
@@ -55,7 +56,8 @@ fun AppNavGraph(
                 },
                 onNavigateToCart = { navController.navigate(Route.Cart) },
                 onNavigateToOrders = { navController.navigate(Route.OrderHistory) },
-                onNavigateToProfile = { navController.navigate(Route.Profile) }
+                onNavigateToProfile = { navController.navigate(Route.Profile) },
+                onNavigateToKitchen = { navController.navigate(Route.KitchenDashboard) }
             )
         }
 
@@ -109,6 +111,12 @@ fun AppNavGraph(
                         popUpTo(Route.Home) { inclusive = true }
                     }
                 }
+            )
+        }
+
+        composable<Route.KitchenDashboard> {
+            KitchenDashboardScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }

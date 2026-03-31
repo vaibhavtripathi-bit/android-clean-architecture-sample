@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Kitchen
 import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -65,6 +66,7 @@ fun HomeScreen(
     onNavigateToCart: () -> Unit,
     onNavigateToOrders: () -> Unit,
     onNavigateToProfile: () -> Unit,
+    onNavigateToKitchen: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -78,6 +80,7 @@ fun HomeScreen(
                         "cart" -> onNavigateToCart()
                         "orders" -> onNavigateToOrders()
                         "profile" -> onNavigateToProfile()
+                        "kitchen" -> onNavigateToKitchen()
                         else -> onNavigateToDetail(effect.route)
                     }
                 }
@@ -93,6 +96,9 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text("Restaurant", fontWeight = FontWeight.Bold) },
                 actions = {
+                    IconButton(onClick = { viewModel.onEvent(HomeEvent.KitchenClicked) }) {
+                        Icon(Icons.Default.Kitchen, contentDescription = "Kitchen")
+                    }
                     IconButton(onClick = { viewModel.onEvent(HomeEvent.OrdersClicked) }) {
                         Icon(Icons.Default.Receipt, contentDescription = "Orders")
                     }

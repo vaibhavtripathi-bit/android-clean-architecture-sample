@@ -46,6 +46,7 @@ sealed interface HomeEvent {
     data object CartClicked : HomeEvent
     data object OrdersClicked : HomeEvent
     data object ProfileClicked : HomeEvent
+    data object KitchenClicked : HomeEvent
 }
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -132,6 +133,9 @@ class HomeViewModel @Inject constructor(
             }
             is HomeEvent.ProfileClicked -> {
                 viewModelScope.launch { _effects.send(UiEffect.Navigate("profile")) }
+            }
+            is HomeEvent.KitchenClicked -> {
+                viewModelScope.launch { _effects.send(UiEffect.Navigate("kitchen")) }
             }
         }
     }

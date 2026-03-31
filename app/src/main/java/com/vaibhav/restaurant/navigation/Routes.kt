@@ -11,4 +11,5 @@ sealed interface Route {
     @Serializable data class OrderTracking(val orderId: String) : Route
     @Serializable data object OrderHistory : Route
     @Serializable data object Profile : Route
+    @Serializable data object KitchenDashboard : Route
 }
