@@ -95,4 +95,8 @@ dependencies {
 
     // Immutable Collections
     implementation(libs.kotlinx.collections.immutable)
+
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
