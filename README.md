@@ -6,6 +6,7 @@ A modern Android restaurant ordering app built with **Jetpack Compose**, **Kotli
 
 - [Screenshots & Features](#screenshots--features)
 - [Architecture](#architecture)
+- [Decisions & Trade-offs](#decisions--trade-offs)
 - [Tech Stack](#tech-stack)
 - [Coroutines & Flow Patterns](#coroutines--flow-patterns)
 - [Project Structure](#project-structure)
@@ -102,6 +103,16 @@ sealed interface UiEffect {
 private val _effects = Channel<UiEffect>(Channel.BUFFERED)
 val effects = _effects.receiveAsFlow()
 ```
+
+---
+
+## Decisions & Trade-offs
+
+- **Feature-based packages, not layer-based** (`feature/auth`, `feature/menu`, `feature/cart`, `feature/order`, `feature/profile`, each with its own `data`/`domain`/`presentation`) — a feature can be owned end-to-end by one team without touching unrelated code. The trade-off is discipline around `core/` — anything shared across features has to earn its way in, or `core` becomes a dumping ground.
+- **Hilt over manual DI** — with this many ViewModels, repositories, and framework dependencies (Room, Retrofit, DataStore), a DI framework removes real wiring boilerplate and gets first-class `ViewModel`/Compose Navigation integration for free. (Contrast with the iOS reference sample, which uses manual DI — a deliberate platform-appropriate choice in both cases, not an inconsistency: Swift has no Hilt-equivalent with the same ecosystem support.)
+- **Room + `Flow` as the single source of truth for cart/order state**, rather than caching in the repository — every mutation goes through a DB write, but the UI always reflects persisted state after process death or config change, with no separate cache-invalidation logic to get wrong.
+- **Mutex-guarded repository mutations** on top of Room's own transaction guarantees — cart mutations can race from rapid UI interaction (tap add, then immediately change quantity), so `CartRepository` serializes them explicitly rather than relying on emergent behavior from Room. At this data scale the serialization cost is irrelevant; I'd revisit it under real concurrent load.
+- **`FakeRestaurantApi` instead of a real backend** — keeps the sample runnable standalone with demo credentials and no server dependency, which matters for a reference/portfolio project. Deliberately out of scope: real authentication, a live backend, offline conflict resolution, and pagination — the sample optimizes for demonstrating architecture and Flow patterns clearly, not for production completeness.
 
 ---
 
@@ -655,12 +666,20 @@ com.vaibhav.restaurant/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/vaibhavtripathi-bit/android_restaurant.git
+   git clone https://github.com/vaibhavtripathi-bit/android-clean-architecture-sample.git
    ```
 
 2. Open in Android Studio
 
 3. Sync Gradle and run on an emulator or device (API 26+)
+
+### Running Tests
+
+Unit tests live in `app/src/test/` and cover domain logic and the `CartRepository` (via a fake `CartDao`, no Room/instrumented test needed):
+
+```bash
+./gradlew test
+```
 
 ### Key Build Configuration
 
